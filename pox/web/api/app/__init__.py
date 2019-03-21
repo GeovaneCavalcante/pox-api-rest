@@ -1,5 +1,4 @@
 # coding=utf-8
-from .routes import *
 from flask import Flask
 from flask_restplus import Api
 
@@ -12,3 +11,5 @@ api = Api(app, title="API POX",
           description="REST interface with network information based on pox controller")
 
 # Importação de rotas
+from .routes import *
+

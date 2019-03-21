@@ -15,6 +15,15 @@ ns_controller = api.namespace('api_controller')
 class ControllerInformation(Resource):
 
     def get(self):
-        """ Driver Information """
+        """ Controller information """
         controller = Controller()
         return jsonify(controller.getInfo())
+
+
+@ns_switch.route('/switches/links')
+class ControllerInformation(Resource):
+
+    def get(self):
+        """ Controller information """
+        switch = Switch()
+        return jsonify(switch.getLinks())

@@ -1,4 +1,5 @@
 from pox.core import core
+import pox.lib.util
 
 
 class Switch():
@@ -11,15 +12,17 @@ class Switch():
         try:
             dataArray = []
             discovery = core.components.get("openflow_discovery")
+
             if discovery == None:
                 self.log.error("Error getting module pox.openflow.discovery")
                 return dataArray
+
             links = discovery.adjacency
             for link in links.keys():
                 data = {
-                    "dataLayerSource": dpidToStr(link.dpid1),
+                    "dataLayerSource": self.dpidToStr(link.dpid1),
                     "portSource": link.port1,
-                    "dataLayerDestination": dpidToStr(link.dpid2),
+                    "dataLayerDestination": self.dpidToStr(link.dpid2),
                     "portDestination": link.port2
                 }
                 dataArray.append(data)
@@ -28,3 +31,17 @@ class Switch():
             self.log.error(e.message)
             dataArray = []
             return dataArray
+
+    def dpidToStr(self, dpid):
+        """
+        Converts DPID from numeric format to format XX:XX:XX:XX:XX:XX:XX:XX.
+
+        :param dpid: DPID in numeric format to convert
+        :type dpid: int
+        :return: DPID in format XX:XX:XX:XX:XX:XX:XX:XX
+        :rtype: str
+        """
+        dpidStr = pox.lib.util.dpidToStr(dpid)
+        dpidStr = dpidStr.replace("-", ":")
+        dpidStr = "00:00:" + dpidStr
+        return dpidStr
