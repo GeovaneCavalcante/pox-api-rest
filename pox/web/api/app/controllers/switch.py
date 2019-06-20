@@ -193,7 +193,7 @@ class Switch():
             bodyMsg.out_port = of.OFPP_NONE
             msg = of.ofp_stats_request(body = bodyMsg)
             msg.type = of.OFPST_FLOW
-      
+
             dataArray = []
             stats = self.get_switch_stats(switch_dpid, msg, "flows")
             if stats == None:
@@ -207,7 +207,8 @@ class Switch():
                         if len(outports) > 0:
                             outports += " "
                         outports += str(action.port)
-       
+
+                print(flowStats.__dict__.get('match'))
                 data = {
                         "inPort": flowStats.match._in_port,
                         "dataLayerSource": str(flowStats.match._dl_src),
